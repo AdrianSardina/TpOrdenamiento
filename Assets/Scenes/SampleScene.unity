@@ -638,7 +638,7 @@ GameObject:
   - component: {fileID: 630083751}
   - component: {fileID: 630083750}
   m_Layer: 0
-  m_Name: Button
+  m_Name: Mezclar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1134,7 +1134,7 @@ GameObject:
   - component: {fileID: 2070826198}
   - component: {fileID: 2070826197}
   m_Layer: 0
-  m_Name: Button
+  m_Name: Ordenar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
