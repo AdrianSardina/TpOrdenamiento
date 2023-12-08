@@ -21,7 +21,10 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        for (int o = 0; o <= 1; o++)
+        {
+            autos[o].Mover();
+        }
     }
 
     public void Mezclar()
