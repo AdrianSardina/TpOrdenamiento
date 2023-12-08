@@ -4,15 +4,23 @@ using UnityEngine;
 
 public class AutoScript : MonoBehaviour
 {
+    Orden orden;
+    GameManager game;
     float velocidad;
     public float Velocidad { get => velocidad; }
     Rigidbody2D rb;
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        game = FindObjectOfType<GameManager>();
     }
 
-    void Mover() 
+    private void Update()
+    {
+       // Mover();
+    }
+    
+   public void Mover() 
     {
         rb.velocity = new Vector2(velocidad,0);
     }
@@ -20,5 +28,14 @@ public class AutoScript : MonoBehaviour
     public void CambiarVelocidad(float v) 
     {
         velocidad = v;
+    }
+    
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("meta")) {
+            // orden.ObtenerAuto(this);
+            game.OrdenAuto(velocidad);
+        
+        }
     }
 }
