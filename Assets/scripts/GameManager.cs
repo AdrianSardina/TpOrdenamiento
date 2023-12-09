@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     Orden orden;
     AutoScript primeroEnLlegar;
+    bool llegaronAMeta;
     AutoScript[] autos;
     float[] ordenAuto;
     int o;
@@ -17,6 +18,7 @@ public class GameManager : MonoBehaviour
         textManager = new TextManager();
         ordenAuto = new float[5];
         o = 0;
+        llegaronAMeta = false;
     }
 
     // Update is called once per frame
@@ -63,10 +65,12 @@ public class GameManager : MonoBehaviour
            
             for (int j = i + 1; j < autos.Length; j++)
             {
-               MoverAutos(autos[j],minimo);// el Minimo y el auto auto en el indice j se comparan
+                
+                MoverAutos(autos[j],minimo);// el Minimo y el auto auto en el indice j se comparan
                 
                 Debug.Log("Estoy esperando");
-                yield return new WaitUntil(() => primeroEnLlegar !=null);//Espero hasta que uno llegue a la meta
+               // yield return new WaitUntil(() => primeroEnLlegar !=null );//Espero hasta que uno llegue a la meta
+                yield return new WaitUntil(() => o>1);//Espero hasta que uno llegue a la meta
                 Debug.Log("Llego un auto a la meta");
 
 
@@ -80,32 +84,41 @@ public class GameManager : MonoBehaviour
                 }
 
 
-                
+                o = 0;
                 primeroEnLlegar = null;
-                //if (autos[j].Velocidad < minimo.Velocidad) // compara con uno
-                //{
-                //    minIndex = j;
-                //    minimo = autos[j];
-
-                //}
+                llegaronAMeta = false;
+                
             }
             Cambiar(autos, i, minIndex);
         }
-        foreach (var item in autos)
-        {
-            Debug.LogError(item.Velocidad);
-        }
+        //foreach (var item in autos)
+        //{
+        // //   Debug.LogError(item.Velocidad);
+        //}
     }
     private void Cambiar(AutoScript[] lista, int indice, int minimo)
     {
-        Debug.LogWarning(lista[indice].transform.position);
+        //Debug.LogWarning(lista[indice].transform.position);
 
         AutoScript temp = lista[indice];
-        Vector2 pos = lista[indice].transform.position;
+        Vector2 pos = lista[indice].gameObject.transform.position;
+
+
+        lista[indice].gameObject.transform.position = new Vector2(-9, lista[minimo].gameObject.transform.position.y);
         lista[indice] = lista[minimo];
-        lista[indice].transform.position = new Vector2(-9, lista[minimo].transform.position.y);
+
+
+        lista[minimo].gameObject.transform.position = new Vector2(-9, pos.y);
         lista[minimo] = temp;
-        lista[minimo].transform.position = new Vector2(-9,pos.y);
+
+        
+        //lista[indice] = lista[minimo];
+        //lista[indice].gameObject.transform.position = new Vector2(-9, lista[minimo].gameObject.transform.position.y);
+
+        
+        //lista[minimo] = temp;
+        //lista[minimo].gameObject.transform.position = new Vector2(-9, pos.y);
+
 
 
     }
@@ -126,6 +139,14 @@ public class GameManager : MonoBehaviour
     }   
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        primeroEnLlegar = collision.gameObject.GetComponent<AutoScript>();
+        if (o == 0)
+        {
+            primeroEnLlegar = collision.gameObject.GetComponent<AutoScript>();
+            
+        }
+        o++;
+
+
+
     }
 }
