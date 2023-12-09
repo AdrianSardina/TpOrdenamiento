@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     Orden orden;
+    bool termino;
     AutoScript[] autos;
     float[] ordenAuto;
     int o;
@@ -29,10 +30,13 @@ public class GameManager : MonoBehaviour
 
     public void Mezclar()
     {
+        int i = 0;
         foreach (AutoScript auto in autos)
         {
             auto.CambiarVelocidad(UnityEngine.Random.Range(1, 20));
             textManager.CambiarTexto(auto);
+            auto.transform.position = new Vector2(-9,2-i);
+            i++;
         }
     }
     public void OrdenAuto(float i) {
@@ -44,5 +48,38 @@ public class GameManager : MonoBehaviour
         o++;
 
     }
-  
+    public IEnumerator OrdenarSeleccion()
+    {
+        for (int i = 0; i < autos.Length; i++)
+        {
+            int minIndex = i;
+            AutoScript minimo = autos[i];
+            termino = false;
+            Debug.Log("Estoy esperando");
+            yield return new WaitUntil(() => termino == true);
+            Debug.Log("Llego un auto a la meta");
+            for (int j = i + 1; j < autos.Length; j++)
+            {
+                if (autos[j].Velocidad < minimo.Velocidad) // compara con uno
+                {
+                    minIndex = j;
+                    minimo = autos[j];
+
+                }
+            }
+            Cambiar(autos, i, minIndex);
+        }
+        //foreach (AutoScript auto in autosDesordenados) {
+        //    Debug.Log(auto.Velocidad);
+        //}
+
+    }
+    private void Cambiar(AutoScript[] lista, int v1, int v2)
+    {
+        AutoScript temp = lista[v1];
+        lista[v1] = lista[v2];
+        lista[v2] = temp;
+
+
+    }
 }
