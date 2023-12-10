@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     bool llegaronAMeta;
     AutoScript[] autos;
     float[] ordenAuto;
+    GameObject indice,minimo2;
     int o;
     TextManager textManager;
     void Start()
@@ -19,6 +20,8 @@ public class GameManager : MonoBehaviour
         ordenAuto = new float[5];
         o = 0;
         llegaronAMeta = false;
+        indice = GameObject.Find("indice");
+        minimo2 = GameObject.Find("minimo");
     }
 
     // Update is called once per frame
@@ -37,7 +40,7 @@ public class GameManager : MonoBehaviour
         {
             auto.CambiarVelocidad(UnityEngine.Random.Range(1, 20));
             textManager.CambiarTexto(auto);
-            auto.transform.position = new Vector2(-9,2-i);
+            auto.transform.position = new Vector2(-7.5f,2-i);
             i++;
         }
     }
@@ -59,15 +62,17 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < autos.Length; i++)
         {
+
             int minIndex = i;
             AutoScript minimo = autos[i];
            
-           
+
             for (int j = i + 1; j < autos.Length; j++)
             {
                 
                 MoverAutos(autos[j],minimo);// el Minimo y el auto auto en el indice j se comparan
-                
+                indice.transform.position = new Vector2(autos[i].transform.position.x-1, autos[i].transform.position.y+0.1f);
+                minimo2.transform.position = new Vector2(minimo.transform.position.x - 1, minimo.transform.position.y-0.2f);
                 Debug.Log("Estoy esperando");
                // yield return new WaitUntil(() => primeroEnLlegar !=null );//Espero hasta que uno llegue a la meta
                 yield return new WaitUntil(() => o>1);//Espero hasta que uno llegue a la meta
@@ -104,11 +109,11 @@ public class GameManager : MonoBehaviour
         Vector2 pos = lista[indice].gameObject.transform.position;
 
 
-        lista[indice].gameObject.transform.position = new Vector2(-9, lista[minimo].gameObject.transform.position.y);
+        lista[indice].gameObject.transform.position = new Vector2(-7.5f, lista[minimo].gameObject.transform.position.y);
         lista[indice] = lista[minimo];
 
 
-        lista[minimo].gameObject.transform.position = new Vector2(-9, pos.y);
+        lista[minimo].gameObject.transform.position = new Vector2(-7.5f, pos.y);
         lista[minimo] = temp;
 
         
@@ -131,8 +136,8 @@ public class GameManager : MonoBehaviour
     {
         a1.Parar();
         a2.Parar();
-        a1.transform.position = new Vector2(-9,a1.transform.position.y);
-        a2.transform.position = new Vector2(-9, a2.transform.position.y);
+        a1.transform.position = new Vector2(-7.5f, a1.transform.position.y);
+        a2.transform.position = new Vector2(-7.5f, a2.transform.position.y);
 
         // a2.transform.position = new Vector2(-9,transform.position.y);
 
@@ -142,7 +147,7 @@ public class GameManager : MonoBehaviour
         if (o == 0)
         {
             primeroEnLlegar = collision.gameObject.GetComponent<AutoScript>();
-            
+            primeroEnLlegar.Parar();
         }
         o++;
 
