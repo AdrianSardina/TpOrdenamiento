@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < autos.Length; i++)
         {
-            indice.transform.position = new Vector2(autos[i].transform.position.x - 1, autos[i].transform.position.y + 0.1f);
+            indice.GetComponent<Indice>().Mover(i,autos);
             int minIndex = i;
             AutoScript minimo = autos[i];
           
@@ -60,8 +60,8 @@ public class GameManager : MonoBehaviour
             {
                 
                 MoverAutos(autos[j],minimo);// el Minimo y el auto en el indice j se comparan
-                
-                minimo2.transform.position = new Vector2(minimo.transform.position.x - 1, minimo.transform.position.y-0.2f);
+
+                minimo2.GetComponent<Minimo>().Mover(minimo);
                 
                 yield return new WaitUntil(() => o>1);//Espero hasta que uno llegue a la meta
  
