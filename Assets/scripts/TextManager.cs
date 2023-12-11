@@ -8,7 +8,7 @@ public class TextManager
     public void CambiarTexto(AutoScript auto) 
     {
         TextMeshProUGUI texto = auto.GetComponentInChildren<TextMeshProUGUI>();
-        texto.text = auto.Velocidad.ToString()+"km/h";
+        texto.text = auto.Velocidad.ToString()+"   km/h";
        
     }
 }
