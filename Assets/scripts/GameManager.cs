@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
         {
             auto.CambiarVelocidad(UnityEngine.Random.Range(1, 20));
             textManager.CambiarTexto(auto);
-            auto.transform.position = new Vector2(-7.5f,2-i);
+            auto.transform.position = new Vector2(-7.5f,2-i*1.5f);
             i++;
         }
     }
